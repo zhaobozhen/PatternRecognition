@@ -14,13 +14,15 @@ def k_nearest_neighbors(data, predict, k=1):
             distances.append([euclidean_distance, group])
 
     sorted_distances = [i[1] for i in sorted(distances)]
+    sorted_distances_num = [i[0] for i in sorted(distances)]
     top_nearest = sorted_distances[:k]
+    top_nearest_num = sorted_distances_num[0]
 
     # print(top_nearest)  # ['red','black','red']
     group_res = Counter(top_nearest).most_common(1)[0][0]
     # confidencesはこの分類の確実性の度合い
     confidence = Counter(top_nearest).most_common(1)[0][1] * 1.0 / k
-    return group_res, confidence
+    return group_res, confidence, top_nearest_num
 
 
 def load_data(filename):
@@ -36,19 +38,19 @@ def load_data(filename):
 
 
 if __name__ == '__main__':
-    file = './data/data1-A.txt'
+    file = './data/data2-A.txt'
     data_a = load_data(file)
 
-    file = './data/data1-B.txt'
+    file = './data/data2-B.txt'
     data_b = load_data(file)
 
-    file = './data/data1-X.txt'
+    file = './data/data2-X.txt'
     predict = load_data(file)
 
     dataset = {'Data_A': data_a, 'Data_B': data_b}
     colors = {'Data_A': 'black', 'Data_B': 'red'}
 
-    k = 100
+    k = 500
     print('k =', k)
 
     for i in dataset:
@@ -56,8 +58,8 @@ if __name__ == '__main__':
             pyplot.scatter(ii[0], ii[1], s=20, color=colors[i])
 
     for i in range(0, len(predict)):
-        which_group, m_confidence = k_nearest_neighbors(dataset, predict[i], k)
-        print('Data_X', i+1, 'belongs to', which_group, ', confidence:', m_confidence)
+        which_group, m_confidence, distance = k_nearest_neighbors(dataset, predict[i], k)
+        print('Data_X', i+1, 'belongs to', which_group, ', distance =', distance, ', confidence:', m_confidence)
         pyplot.scatter(predict[i][0], predict[i][1], s=100, color='blue')
 
     pyplot.show()
