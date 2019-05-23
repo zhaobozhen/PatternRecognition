@@ -48,12 +48,15 @@ if __name__ == '__main__':
     dataset = {'Data_A': data_a, 'Data_B': data_b}
     colors = {'Data_A': 'black', 'Data_B': 'red'}
 
+    k = 100
+    print('k =', k)
+
     for i in dataset:
         for ii in dataset[i]:
             pyplot.scatter(ii[0], ii[1], s=20, color=colors[i])
 
     for i in range(0, len(predict)):
-        which_group, m_confidence = k_nearest_neighbors(dataset, predict[i], k=100)
+        which_group, m_confidence = k_nearest_neighbors(dataset, predict[i], k)
         print('Data_X', i+1, 'belongs to', which_group, ', confidence:', m_confidence)
         pyplot.scatter(predict[i][0], predict[i][1], s=100, color='blue')
 
