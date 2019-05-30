@@ -21,9 +21,9 @@ def calculate_mean_and_variance(dataset):
     # 各属性のサンプルの分散を計算
     for i in dataset:
         k11 += (float(i[0]) - mean_x1) ** 2
-        k12 += (float(i[0]) - mean_x1) * (float(i[0]) - mean_x2)
-        k21 += (float(i[0]) - mean_x1) * (float(i[0]) - mean_x2)
-        k22 += (float(i[0]) - mean_x2) ** 2
+        k12 += (float(i[0]) - mean_x1) * (float(i[1]) - mean_x2)
+        k21 += (float(i[0]) - mean_x1) * (float(i[1]) - mean_x2)
+        k22 += (float(i[1]) - mean_x2) ** 2
 
     variance_x1 = k11 / 500
     variance_x2 = k22 / 500
@@ -63,8 +63,10 @@ if __name__ == '__main__':
     file = './data/data2-X.txt'
     predict = load_data(file)
 
-    data_a_mean_x1, data_a_mean_x2, data_a_variance_x1, data_a_variance_x2, data_a_variance_x3, data_a_variance_x4 = calculate_mean_and_variance(data_a)
-    data_b_mean_x1, data_b_mean_x2, data_b_variance_x1, data_b_variance_x2, data_b_variance_x3, data_b_variance_x4 = calculate_mean_and_variance(data_b)
+    data_a_mean_x1, data_a_mean_x2, data_a_variance_x1, data_a_variance_x2, data_a_variance_x3, data_a_variance_x4 = calculate_mean_and_variance(
+        data_a)
+    data_b_mean_x1, data_b_mean_x2, data_b_variance_x1, data_b_variance_x2, data_b_variance_x3, data_b_variance_x4 = calculate_mean_and_variance(
+        data_b)
 
     # 共分散行列を計算
     print('Mean of Data A:', data_a_mean_x1, data_a_mean_x2)
@@ -72,7 +74,7 @@ if __name__ == '__main__':
     print('Covariance matrix of Data A:')
     print('[', data_a_variance_x1, data_a_variance_x3, ']')
     print('[', data_a_variance_x4, data_a_variance_x2, ']')
-    print('Covariance matrix of Data B:', data_b_variance_x1+data_b_variance_x2)
+    print('Covariance matrix of Data B:', data_b_variance_x1 + data_b_variance_x2)
     print('[', data_b_variance_x1, data_b_variance_x3, ']')
     print('[', data_b_variance_x4, data_b_variance_x2, ']')
 
@@ -80,8 +82,10 @@ if __name__ == '__main__':
     p1 = 0.5
     p2 = 0.5
     for x in predict:
-        P_x1_data_a, P_x2_data_a = calculate_P_xi_c(data_a_mean_x1, data_a_mean_x2, data_a_variance_x1, data_a_variance_x2, x)
-        P_x1_data_b, P_x2_data_b = calculate_P_xi_c(data_b_mean_x1, data_b_mean_x2, data_b_variance_x1, data_b_variance_x2, x)
+        P_x1_data_a, P_x2_data_a = calculate_P_xi_c(data_a_mean_x1, data_a_mean_x2, data_a_variance_x1,
+                                                    data_a_variance_x2, x)
+        P_x1_data_b, P_x2_data_b = calculate_P_xi_c(data_b_mean_x1, data_b_mean_x2, data_b_variance_x1,
+                                                    data_b_variance_x2, x)
 
         # 事後確率を計算
         P_data_a = p1 * P_x1_data_a * P_x2_data_a
